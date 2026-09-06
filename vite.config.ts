@@ -4,5 +4,6 @@ import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/gas-price-finder/',
   plugins: [react(), tailwindcss()],
 })

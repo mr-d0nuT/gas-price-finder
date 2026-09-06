@@ -1,32 +1,30 @@
-# React + TypeScript + Vite
+# ⛽ Gas Price Finder App
+> 🔗 **App en vivo:** [https://mr-d0nuT.github.io/gas-price-finder/](https://mr-d0nuT.github.io/gas-price-finder/)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Una Progressive Web App (PWA) moderna y optimizada para dispositivos móviles que permite localizar las gasolineras más baratas cerca de tu ubicación en toda España.
 
-Currently, two official plugins are available:
+## Características Principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+*   **📍 Geolocalización Nativa:** Encuentra gasolineras automáticamente en un radio cercano a tu posición actual.
+*   **📊 Datos Oficiales en Vivo:** Conectado directamente a la API REST de *Estaciones Terrestres* del Ministerio para la Transición Ecológica del Gobierno de España.
+*   **💳 Descuentos de Fidelidad:** Descubre los precios potenciales si aplicas los descuentos base de programas como Waylet (Repsol), Gow (Cepsa), Mundo Galp, Mi BP, y tarjetas de supermercados (Bonpreu, Carrefour, Eroski).
+*   **📱 Mobile-First:** Interfaz desarrollada con Tailwind CSS para brindar la mejor experiencia en pantallas pequeñas.
+*   **🗺️ Mapa Interactivo:** Visualización rápida usando Leaflet.
 
-## React Compiler
+## Tecnologías Utilizadas
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **React + TypeScript** (con Vite)
+*   **Tailwind CSS v4**
+*   **React Leaflet** (Mapas)
+*   **Lucide React** (Iconos)
 
-## Expanding the Oxlint configuration
+## Desarrollo Local
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+Para iniciar el servidor de desarrollo en tu máquina:
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Luego abre `http://localhost:5173` en tu navegador.
