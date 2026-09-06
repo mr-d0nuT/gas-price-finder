@@ -39,12 +39,17 @@ export function Filters({ fuelType, setFuelType, radius, setRadius, useLoyaltyDi
         </div>
 
         {/* Loyalty Discount Toggle */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-gray-700">
-            <Tag className="w-4 h-4 text-emerald-600" />
-            <span className="text-sm font-medium">Aplicar descuentos de fidelización</span>
+        <div className="bg-emerald-50/50 p-3 rounded-xl border border-emerald-100 flex items-center justify-between">
+          <div className="flex flex-col text-gray-800">
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <Tag className="w-4 h-4 text-emerald-600" />
+              <span className="text-sm font-bold">Descubrir descuentos por fidelidad</span>
+            </div>
+            <span className="text-[10px] text-gray-500 max-w-[200px] leading-tight">
+              Muestra el precio potencial si te haces socio de la app/tarjeta de cada marca (Waylet, Gow, etc.)
+            </span>
           </div>
-          <label className="relative inline-flex items-center cursor-pointer">
+          <label className="relative inline-flex items-center cursor-pointer shrink-0">
             <input 
               type="checkbox" 
               className="sr-only peer" 

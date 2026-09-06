@@ -67,6 +67,8 @@ export function filterNearbyStations(
       let appliedDiscountName = undefined;
       let discountAmount = undefined;
 
+      let discountDescription = undefined;
+
       if (useLoyaltyDiscounts) {
         const discountProgram = getDiscountForBrand(station.brand);
         if (discountProgram) {
@@ -74,6 +76,7 @@ export function filterNearbyStations(
           if (effectiveDiesel) effectiveDiesel -= discountProgram.discountPerLiter;
           appliedDiscountName = discountProgram.name;
           discountAmount = discountProgram.discountPerLiter;
+          discountDescription = discountProgram.description;
         }
       }
 
@@ -83,7 +86,8 @@ export function filterNearbyStations(
         effectivePriceGasoline95: effectiveGasoline95,
         effectivePriceDiesel: effectiveDiesel,
         appliedDiscountName,
-        discountAmount
+        discountAmount,
+        discountDescription
       };
     })
     .filter(station => {

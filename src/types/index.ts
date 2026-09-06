@@ -15,6 +15,7 @@ export interface GasStation {
   effectivePriceDiesel?: number | null;
   appliedDiscountName?: string;
   discountAmount?: number;
+  discountDescription?: string;
 }
 
 export interface Coordinates {

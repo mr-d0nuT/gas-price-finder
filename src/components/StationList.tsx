@@ -49,25 +49,33 @@ export function StationList({ stations, fuelType }: StationListProps) {
                 <p className="text-sm text-gray-500 truncate mb-1">
                   {station.address}, {station.municipality}
                 </p>
-                <div className="flex items-center gap-3 text-xs font-medium text-gray-400">
+                <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-gray-400">
                   <span className="flex items-center gap-1">
                     <Navigation className="w-3.5 h-3.5" />
                     {station.distance?.toFixed(1)} km
                   </span>
                   
                   {station.appliedDiscountName && (
-                    <span className="flex items-center gap-1 text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
+                    <span className="flex items-center gap-1 text-emerald-700 bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded">
                       <Tag className="w-3 h-3" />
-                      {station.appliedDiscountName}
+                      Si usas {station.appliedDiscountName}
                     </span>
                   )}
                 </div>
+                {station.discountDescription && (
+                  <p className="text-[10px] text-gray-400 mt-1.5 leading-tight italic">
+                    * {station.discountDescription}
+                  </p>
+                )}
               </div>
               
-              <div className="flex flex-col items-end justify-center">
+              <div className="flex flex-col items-end justify-center shrink-0">
                 {station.appliedDiscountName && rawPrice !== effectivePrice && (
-                  <div className="text-xs text-gray-400 line-through mb-0.5">
-                    {rawPrice?.toFixed(3)}€
+                  <div className="flex flex-col items-end">
+                    <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Precio surtidor</span>
+                    <div className="text-xs text-gray-400 line-through mb-1">
+                      {rawPrice?.toFixed(3)}€
+                    </div>
                   </div>
                 )}
                 <div className={`text-xl font-black tracking-tight ${isCheapest ? 'text-emerald-600' : 'text-gray-900'}`}>
