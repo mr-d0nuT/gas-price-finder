@@ -58,19 +58,27 @@ export function Map({ userLocation, stations, fuelType, selectedStationId }: Map
           <Popup>Estás aquí</Popup>
         </Marker>
 
-        {stations.map(station => (
+        {stations.map(station => {
+          const effectivePrice = fuelType === 'gasoline' ? station.effectivePriceGasoline95 : station.effectivePriceDiesel;
+          return (
           <Marker key={station.id} position={[station.lat, station.lng]}>
             <Popup>
               <div className="font-sans">
                 <strong className="block text-base mb-1">{station.brand || 'Gasolinera'}</strong>
                 <span className="text-gray-600 block text-xs mb-2">{station.address}</span>
                 <div className="bg-emerald-50 text-emerald-800 p-2 rounded text-center font-bold text-lg">
-                  {fuelType === 'gasoline' ? station.priceGasoline95 : station.priceDiesel} €/L
+                  {effectivePrice?.toFixed(3)} €/L
                 </div>
+                {station.appliedDiscountName && (
+                  <div className="text-[10px] text-center mt-1 text-emerald-600 font-semibold uppercase">
+                    Con {station.appliedDiscountName}
+                  </div>
+                )}
               </div>
             </Popup>
           </Marker>
-        ))}
+          );
+        })}
       </MapContainer>
       
       {/* Soft gradient overlay for smooth transition to list */}

@@ -1,13 +1,15 @@
-import { Settings2 } from 'lucide-react';
+import { Settings2, Tag } from 'lucide-react';
 
 interface FiltersProps {
   fuelType: 'gasoline' | 'diesel';
   setFuelType: (type: 'gasoline' | 'diesel') => void;
   radius: number;
   setRadius: (radius: number) => void;
+  useLoyaltyDiscounts: boolean;
+  setUseLoyaltyDiscounts: (use: boolean) => void;
 }
 
-export function Filters({ fuelType, setFuelType, radius, setRadius }: FiltersProps) {
+export function Filters({ fuelType, setFuelType, radius, setRadius, useLoyaltyDiscounts, setUseLoyaltyDiscounts }: FiltersProps) {
   return (
     <div className="bg-white border-b border-gray-100 p-4 sticky top-14 z-40">
       <div className="max-w-md mx-auto space-y-4">
@@ -34,6 +36,23 @@ export function Filters({ fuelType, setFuelType, radius, setRadius }: FiltersPro
           >
             Diésel
           </button>
+        </div>
+
+        {/* Loyalty Discount Toggle */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-gray-700">
+            <Tag className="w-4 h-4 text-emerald-600" />
+            <span className="text-sm font-medium">Aplicar descuentos de fidelización</span>
+          </div>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input 
+              type="checkbox" 
+              className="sr-only peer" 
+              checked={useLoyaltyDiscounts}
+              onChange={(e) => setUseLoyaltyDiscounts(e.target.checked)}
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+          </label>
         </div>
 
         {/* Radius Slider */}

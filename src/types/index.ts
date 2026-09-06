@@ -9,6 +9,12 @@ export interface GasStation {
   priceGasoline95: number | null;
   priceDiesel: number | null;
   distance?: number; // in km
+  
+  // Fields for loyalty discounts
+  effectivePriceGasoline95?: number | null;
+  effectivePriceDiesel?: number | null;
+  appliedDiscountName?: string;
+  discountAmount?: number;
 }
 
 export interface Coordinates {

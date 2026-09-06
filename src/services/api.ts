@@ -51,17 +51,41 @@ export async function getGasStations(): Promise<GasStation[]> {
   }
 }
 
+import { getDiscountForBrand } from './discounts';
+
 export function filterNearbyStations(
   stations: GasStation[], 
   userLocation: Coordinates, 
   maxDistanceKm: number = 10,
-  fuelType: 'gasoline' | 'diesel' = 'gasoline'
+  fuelType: 'gasoline' | 'diesel' = 'gasoline',
+  useLoyaltyDiscounts: boolean = false
 ): GasStation[] {
   return stations
-    .map(station => ({
-      ...station,
-      distance: calculateDistance(userLocation, { lat: station.lat, lng: station.lng })
-    }))
+    .map(station => {
+      let effectiveGasoline95 = station.priceGasoline95;
+      let effectiveDiesel = station.priceDiesel;
+      let appliedDiscountName = undefined;
+      let discountAmount = undefined;
+
+      if (useLoyaltyDiscounts) {
+        const discountProgram = getDiscountForBrand(station.brand);
+        if (discountProgram) {
+          if (effectiveGasoline95) effectiveGasoline95 -= discountProgram.discountPerLiter;
+          if (effectiveDiesel) effectiveDiesel -= discountProgram.discountPerLiter;
+          appliedDiscountName = discountProgram.name;
+          discountAmount = discountProgram.discountPerLiter;
+        }
+      }
+
+      return {
+        ...station,
+        distance: calculateDistance(userLocation, { lat: station.lat, lng: station.lng }),
+        effectivePriceGasoline95: effectiveGasoline95,
+        effectivePriceDiesel: effectiveDiesel,
+        appliedDiscountName,
+        discountAmount
+      };
+    })
     .filter(station => {
       // Must be within distance
       if (station.distance === undefined || station.distance > maxDistanceKm) {
@@ -76,8 +100,8 @@ export function filterNearbyStations(
     })
     .sort((a, b) => {
       // Sort by price
-      const priceA = fuelType === 'gasoline' ? a.priceGasoline95! : a.priceDiesel!;
-      const priceB = fuelType === 'gasoline' ? b.priceGasoline95! : b.priceDiesel!;
+      const priceA = fuelType === 'gasoline' ? a.effectivePriceGasoline95! : a.effectivePriceDiesel!;
+      const priceB = fuelType === 'gasoline' ? b.effectivePriceGasoline95! : b.effectivePriceDiesel!;
       
       if (priceA === priceB) {
         // If prices are equal, sort by distance

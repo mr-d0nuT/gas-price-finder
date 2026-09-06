@@ -12,6 +12,7 @@ function App() {
   const { location, error: geoError, loading: geoLoading } = useGeolocation();
   const [fuelType, setFuelType] = useState<'gasoline' | 'diesel'>('gasoline');
   const [radius, setRadius] = useState<number>(5);
+  const [useLoyaltyDiscounts, setUseLoyaltyDiscounts] = useState<boolean>(false);
   const [allStations, setAllStations] = useState<GasStation[]>([]);
   const [loadingStations, setLoadingStations] = useState(true);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -32,8 +33,8 @@ function App() {
 
   const filteredStations = useMemo(() => {
     if (!location || allStations.length === 0) return [];
-    return filterNearbyStations(allStations, location, radius, fuelType);
-  }, [allStations, location, radius, fuelType]);
+    return filterNearbyStations(allStations, location, radius, fuelType, useLoyaltyDiscounts);
+  }, [allStations, location, radius, fuelType, useLoyaltyDiscounts]);
 
   // Loading state
   if (geoLoading || loadingStations) {
@@ -90,6 +91,8 @@ function App() {
           setFuelType={setFuelType} 
           radius={radius} 
           setRadius={setRadius} 
+          useLoyaltyDiscounts={useLoyaltyDiscounts}
+          setUseLoyaltyDiscounts={setUseLoyaltyDiscounts}
         />
         
         <StationList 

@@ -1,5 +1,5 @@
 import { GasStation } from '../types';
-import { MapPin, Navigation } from 'lucide-react';
+import { MapPin, Navigation, Tag } from 'lucide-react';
 
 interface StationListProps {
   stations: GasStation[];
@@ -16,8 +16,7 @@ export function StationList({ stations, fuelType }: StationListProps) {
     );
   }
 
-  // Define cheap threshold (top 20% or so, but let's just highlight the absolutely cheapest)
-  const cheapestPrice = stations[0] ? (fuelType === 'gasoline' ? stations[0].priceGasoline95 : stations[0].priceDiesel) : null;
+  const cheapestPrice = stations[0] ? (fuelType === 'gasoline' ? stations[0].effectivePriceGasoline95 : stations[0].effectivePriceDiesel) : null;
 
   return (
     <div className="bg-gray-50 flex-1">
@@ -26,9 +25,10 @@ export function StationList({ stations, fuelType }: StationListProps) {
           Resultados ({stations.length})
         </h2>
         
-        {stations.map((station, index) => {
-          const price = fuelType === 'gasoline' ? station.priceGasoline95 : station.priceDiesel;
-          const isCheapest = price === cheapestPrice;
+        {stations.map((station) => {
+          const rawPrice = fuelType === 'gasoline' ? station.priceGasoline95 : station.priceDiesel;
+          const effectivePrice = fuelType === 'gasoline' ? station.effectivePriceGasoline95 : station.effectivePriceDiesel;
+          const isCheapest = effectivePrice === cheapestPrice;
           
           return (
             <div 
@@ -46,7 +46,7 @@ export function StationList({ stations, fuelType }: StationListProps) {
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-gray-500 truncate mb-2">
+                <p className="text-sm text-gray-500 truncate mb-1">
                   {station.address}, {station.municipality}
                 </p>
                 <div className="flex items-center gap-3 text-xs font-medium text-gray-400">
@@ -54,12 +54,24 @@ export function StationList({ stations, fuelType }: StationListProps) {
                     <Navigation className="w-3.5 h-3.5" />
                     {station.distance?.toFixed(1)} km
                   </span>
+                  
+                  {station.appliedDiscountName && (
+                    <span className="flex items-center gap-1 text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
+                      <Tag className="w-3 h-3" />
+                      {station.appliedDiscountName}
+                    </span>
+                  )}
                 </div>
               </div>
               
               <div className="flex flex-col items-end justify-center">
+                {station.appliedDiscountName && rawPrice !== effectivePrice && (
+                  <div className="text-xs text-gray-400 line-through mb-0.5">
+                    {rawPrice?.toFixed(3)}€
+                  </div>
+                )}
                 <div className={`text-xl font-black tracking-tight ${isCheapest ? 'text-emerald-600' : 'text-gray-900'}`}>
-                  {price?.toFixed(3)}<span className="text-sm text-gray-400 font-medium ml-0.5">€</span>
+                  {effectivePrice?.toFixed(3)}<span className="text-sm text-gray-400 font-medium ml-0.5">€</span>
                 </div>
               </div>
             </div>
